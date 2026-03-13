@@ -757,23 +757,31 @@ function generatePDF() {
   const fileName = `${safeBillNo}_${safeName}.pdf`;
 
   try {
-    // Some browsers block direct downloads; we generate a blob and attempt download.
+    // Some browsers (esp. iOS/in-app browsers) block downloads.
+    // Strategy:
+    // - Always generate a Blob URL.
+    // - On iOS, OPEN it immediately (must be within the click gesture).
+    // - On others, attempt a normal download.
     const blob = pdf.output('blob');
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
 
-    // iOS Safari sometimes ignores download; opening the PDF helps.
-    setTimeout(() => {
-      try { window.open(url, '_blank'); } catch (e) {}
-      // cleanup later
-      setTimeout(() => URL.revokeObjectURL(url), 60_000);
-    }, 200);
+    if (isIOS) {
+      // Must happen synchronously during the user gesture.
+      window.open(url, '_blank');
+    } else {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    // cleanup later
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
   } catch (e) {
     // Last resort: jsPDF's save
     pdf.save(fileName);
