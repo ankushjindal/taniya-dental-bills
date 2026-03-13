@@ -361,7 +361,7 @@
         <div class="form-group">
           <label>Bill No.</label>
           <div class="bill-counter">
-            <div class="count" id="billNoDisplay">001</div>
+            <input class="count" id="billNoInput" type="text" inputmode="text" placeholder="e.g. TDC-001" />
           </div>
         </div>
         <div class="form-group">
@@ -441,8 +441,14 @@ const LOGO_B64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAE2CAIAAACm
 const SIG_B64 = "data:image/png;base64,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";
 
 // Bill number from localStorage
+// Bill number: default value is auto-incremented, but user can override with any text.
 let billNo = parseInt(localStorage.getItem('tdc_bill_no') || '0') + 1;
-document.getElementById('billNoDisplay').textContent = String(billNo).padStart(3, '0');
+const billNoInput = document.getElementById('billNoInput');
+
+const defaultBillNo = String(billNo).padStart(3, '0');
+const lastCustomBillNo = localStorage.getItem('tdc_bill_no_custom') || '';
+
+billNoInput.value = lastCustomBillNo || defaultBillNo;
 
 // Default date to today
 const today = new Date();
@@ -503,8 +509,10 @@ function getFormData() {
     const [y, m, dd] = d.split('-');
     dateStr = `${dd}/${m}/${y}`;
   }
+  const billNoVal = (document.getElementById('billNoInput').value || '').trim();
+
   return {
-    billNo: String(billNo).padStart(3, '0'),
+    billNo: billNoVal || String(billNo).padStart(3, '0'),
     date: dateStr,
     patientName: document.getElementById('patientName').value.trim() || '—',
     age: document.getElementById('patientAge').value || '—',
@@ -743,19 +751,60 @@ function generatePDF() {
   pdf.setTextColor(150, 150, 150);
   pdf.text('Healthy Teeth, Happy Life', pw / 2, fy + 9, { align: 'center' });
 
-  // Save
-  const fileName = `${d.billNo}_${d.patientName.replace(/\s+/g, '_')}.pdf`;
-  pdf.save(fileName);
+  // Save (with mobile/iOS-friendly fallback)
+  const safeBillNo = (d.billNo || 'bill').replace(/[^a-zA-Z0-9_-]/g, '-');
+  const safeName = (d.patientName || 'patient').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
+  const fileName = `${safeBillNo}_${safeName}.pdf`;
 
-  // Increment bill number
+  try {
+    // Some browsers block direct downloads; we generate a blob and attempt download.
+    const blob = pdf.output('blob');
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    // iOS Safari sometimes ignores download; opening the PDF helps.
+    setTimeout(() => {
+      try { window.open(url, '_blank'); } catch (e) {}
+      // cleanup later
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    }, 200);
+  } catch (e) {
+    // Last resort: jsPDF's save
+    pdf.save(fileName);
+  }
+
+  // Persist bill number state
+  const billNoVal = (document.getElementById('billNoInput').value || '').trim();
+  if (billNoVal) localStorage.setItem('tdc_bill_no_custom', billNoVal);
+
+  // Only auto-increment the numeric counter (used for default suggestion)
   localStorage.setItem('tdc_bill_no', String(billNo));
   billNo++;
-  document.getElementById('billNoDisplay').textContent = String(billNo).padStart(3, '0');
+  const nextDefault = String(billNo).padStart(3, '0');
+  // Update the input only if the user hadn't customized it (i.e., it matched the previous default)
+  if (billNoVal === '' || billNoVal === defaultBillNo) {
+    document.getElementById('billNoInput').value = nextDefault;
+    localStorage.removeItem('tdc_bill_no_custom');
+  }
 }
 
 // Live preview updates
 document.querySelectorAll('input, select').forEach(el => {
-  el.addEventListener('input', updatePreview);
+  el.addEventListener('input', () => {
+    // keep bill number persisted while typing
+    if (el.id === 'billNoInput') {
+      const v = (el.value || '').trim();
+      if (v) localStorage.setItem('tdc_bill_no_custom', v);
+      else localStorage.removeItem('tdc_bill_no_custom');
+    }
+    updatePreview();
+  });
   el.addEventListener('change', updatePreview);
 });
 
