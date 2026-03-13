@@ -754,7 +754,16 @@ function generatePDF() {
   // Save (with mobile/iOS-friendly fallback)
   const safeBillNo = (d.billNo || 'bill').replace(/[^a-zA-Z0-9_-]/g, '-');
   const safeName = (d.patientName || 'patient').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
-  const fileName = `${safeBillNo}_${safeName}.pdf`;
+  // Use a unique filename per download to avoid mobile “old PDF” confusion/caching.
+  const now = new Date();
+  const stamp = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+    String(now.getHours()).padStart(2, '0'),
+    String(now.getMinutes()).padStart(2, '0'),
+  ].join('');
+  const fileName = `${safeBillNo}_${safeName}_${stamp}.pdf`;
 
   try {
     // Some browsers (esp. iOS/in-app browsers) block downloads.
